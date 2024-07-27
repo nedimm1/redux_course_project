@@ -47,7 +47,39 @@ const financialReducer = (state = initialState, action) => {
   }
 };
 
-const store = createStore(financialReducer);
+// const store = createStore(financialReducer);
 
-store.dispatch({ type: "DEPOSIT", payload: 500 });
+// store.dispatch({ type: actionTypes.DEPOSIT, payload: 500 });
+// console.log(store.getState());
+
+const deposit = (amount) => ({
+  type: actionTypes.DEPOSIT,
+  payload: amount,
+});
+
+const withdraw = (amount) => ({
+  type: actionTypes.WITHDRAW,
+  payload: amount,
+});
+
+const applyLoan = (amount, purpose) => ({
+  type: actionTypes.APPLY_LOAN,
+  payload: { amount, purpose },
+});
+
+const repayLoan = (amount) => ({
+  type: actionTypes.REPAY_LOAN,
+  payload: amount,
+});
+
+store.dispatch(deposit(100));
+console.log(store.getState()); // { balance: 100, loan: 0, loanPurpose: '' }
+
+store.dispatch(withdraw(50));
+console.log(store.getState()); // { balance: 50, loan: 0, loanPurpose: '' }
+
+store.dispatch(applyLoan(5000, "Car Loan"));
+console.log(store.getState()); // { balance: 50, loan: 5000, loanPurpose: 'Car Loan' }
+
+store.dispatch(repayLoan(1000));
 console.log(store.getState());
