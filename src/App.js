@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+const initialState = {
+  balance: 0,
+  loan: 0,
+  loanPurpose: "",
+};
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const actionTypes = {
+  DEPOSIT: "DEPOSIT",
+  WITHDRAW: "WITHDRAW",
+  APPLY_LOAN: "APPLY_LOAN",
+  REPAY_LOAN: "REPAY_LOAN",
+};
 
-export default App;
+const financialReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case actionTypes.DEPOSIT:
+      return {
+        ...state,
+        balance: state.balance + action.payload,
+      };
+
+    case actionTypes.WITHDRAW:
+      return {
+        ...state,
+        balance: state.balance - action.payload,
+      };
+
+    case actionTypes.APPLY_LOAN:
+      if (state.loan > 0)
+        return {
+          ...state,
+          loan: action.payload,
+        };
+
+    case actionTypes.REPAY_LOAN:
+      return {
+        ...state,
+        loan: state.loan - action.payload,
+      };
+
+    default:
+      return state;
+  }
+};
